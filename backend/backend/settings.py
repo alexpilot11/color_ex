@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'django_extensions',
     'corsheaders',
     'rest_framework',
     'colors',
@@ -84,8 +85,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('COLOR_DB_NAME', 'color_ex'),
+        'USER': os.getenv('COLOR_DB_USER', 'color_ex'),
+        'PASSWORD': os.getenv('COLOR_DB_PASS', 'color_ex'),
+        'HOST': os.getenv('COLOR_DB_HOST', 'localhost'),
+        'PORT': os.getenv('COLOR_DB_PORT', '5432'),
     }
 }
 
@@ -140,3 +145,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+
+APPEND_SLASH = True

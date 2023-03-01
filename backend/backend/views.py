@@ -17,7 +17,11 @@ def iter_response(response, chunk_size=65536):
         response.close()
 
 def catchall_dev(request, upstream='http://localhost:3000'):
-    upstream_url = upstream + request.path
+    upstream_url = (
+        upstream + request.path
+        if 'favicon' not in request.path
+        else 'http://localhost:8000'
+    )
     response = urllib.request.urlopen(upstream_url)
     content_type = response.getheader('Content-Type')
 
