@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+import { ApiService, Question } from "./rest-api";
+import Box from "@mui/material/Box";
+
+function QuestionCard({ question }: { question: Question }) {
+  return <Box>{question.text}</Box>;
+}
 
 function App() {
-  const [meh, setMeh] = useState<number>(1);
-  const handleClick = () => setMeh(meh + 1);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  useEffect(() => {
+    ApiService.apiQuestionsList().then((data) => setQuestions(data));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p onClick={handleClick}>{meh}</p>
-      </header>
-    </div>
+    <Box className="App">
+      {questions.map((question) => (
+        <QuestionCard question={question} />
+      ))}
+    </Box>
   );
 }
 
